@@ -1,4 +1,5 @@
 import os
+from django.urls import reverse_lazy
 
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
@@ -136,6 +137,7 @@ INSTALLED_APPS = [
     "account",
     "pinax.eventlog",
     "pinax.webanalytics",
+    "social_django",
 
     # project
     "{{ project_name }}",
@@ -179,7 +181,7 @@ FIXTURE_DIRS = [
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-ACCOUNT_OPEN_SIGNUP = True
+ACCOUNT_OPEN_SIGNUP = False
 ACCOUNT_EMAIL_UNIQUE = True
 ACCOUNT_EMAIL_CONFIRMATION_REQUIRED = False
 ACCOUNT_LOGIN_REDIRECT_URL = "home"
@@ -187,6 +189,27 @@ ACCOUNT_LOGOUT_REDIRECT_URL = "home"
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 2
 ACCOUNT_USE_AUTH_AUTHENTICATE = True
 
+ACCOUNT_LOGIN_METHOD = os.environ.get("ACCOUNT_LOGIN_METHOD", "usermodel")
+if ACCOUNT_LOGIN_METHOD == "usermodel":
+    # authenticate using the django user model
+    ACCOUNT_LOGIN_URL = "account_login"
+elif ACCOUNT_LOGIN_METHOD == "armsso":
+    # authenticate using Arm SSO
+    ACCOUNT_LOGIN_URL = reverse_lazy("social:begin", args=["azuread-oauth2"])
+else:
+    error_msg = "Unknown login method: %s" % ACCOUNT_LOGIN_METHOD
+    raise ImproperlyConfigured(error_msg)
+
+# django-user-account hasn't fixed the fact that the built-in django
+# login handlers are more fully featured than their custom ones.
+# Configure Django's settings to match DUA's.
+LOGIN_URL = ACCOUNT_LOGIN_URL
+LOGIN_REDIRECT_URL = ACCOUNT_LOGIN_REDIRECT_URL
+
 AUTHENTICATION_BACKENDS = [
+    "social_core.backends.azuread.AzureADOAuth2",
     "account.auth_backends.UsernameAuthenticationBackend",
 ]
+
+SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True

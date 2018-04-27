@@ -7,6 +7,12 @@
 
 {% block styles %}
     <link href="{% static "css/app.css" %}" rel="stylesheet" />
+    <style>
+      .navbar-brand img {
+        height: 28px;
+        margin-right: 20px;
+      }
+    </style>
 {% endblock %}
 
 
@@ -21,7 +27,12 @@
     <div class="navbar {% block navbar_class %}navbar-expand-lg navbar-light bg-light{% endblock %}">
         <div class="container">
         {% block topbar %}
-            {% block site_brand %}<a class="navbar-brand" href="{% url "home" %}">{{ SITE_NAME }}</a>{% endblock %}
+            {% block site_brand %}
+            <a class="navbar-brand" href="{% url "home" %}">
+            <img src="{% static "images/ArmMbedLogo.svg" %}" class="d-inline-block align-top" alt="">
+                {{ SITE_NAME }}
+            </a>
+            {% endblock %}
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                 <span class="fa fa-bars"></span>
             </button>
