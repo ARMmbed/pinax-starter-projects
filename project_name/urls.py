@@ -11,10 +11,12 @@ urlpatterns = [{% if django_version >= "2" %}
     path("", TemplateView.as_view(template_name="homepage.html"), name="home"),
     path("admin/", admin.site.urls),
     path("account/", include("account.urls")),
+    path("social-auth/", include("social_django.urls", namespace="social")),
 {% else %}
     url(r"^$", TemplateView.as_view(template_name="homepage.html"), name="home"),
     url(r"^admin/", admin.site.urls),
     url(r"^account/", include("account.urls")),
+    url(r"^social-auth/", include("social_django.urls")),
 {% endif %}]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
