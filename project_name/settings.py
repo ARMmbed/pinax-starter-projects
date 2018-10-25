@@ -195,7 +195,7 @@ if ACCOUNT_LOGIN_METHOD == "usermodel":
     ACCOUNT_LOGIN_URL = "account_login"
 elif ACCOUNT_LOGIN_METHOD == "armsso":
     # authenticate using Arm SSO
-    ACCOUNT_LOGIN_URL = reverse_lazy("social:begin", args=["azuread-oauth2"])
+    ACCOUNT_LOGIN_URL = reverse_lazy("social:begin", args=["azuread-tenant-oauth2"])
 else:
     error_msg = "Unknown login method: %s" % ACCOUNT_LOGIN_METHOD
     raise ImproperlyConfigured(error_msg)
@@ -207,9 +207,19 @@ LOGIN_URL = ACCOUNT_LOGIN_URL
 LOGIN_REDIRECT_URL = ACCOUNT_LOGIN_REDIRECT_URL
 
 AUTHENTICATION_BACKENDS = [
-    "social_core.backends.azuread.AzureADOAuth2",
+    "social_core.backends.azuread_tenant.AzureADTenantOAuth2",
     "account.auth_backends.UsernameAuthenticationBackend",
 ]
 
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
-SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
+# Set this to true if our site is https instead of http
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
+
+# See the README for how to configure these
+SOCIAL_AUTH_AZUREAD_OAUTH2_KEY = ""
+SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = ""
+
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = SOCIAL_AUTH_AZUREAD_OAUTH2_KEY
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = "arm.com"
