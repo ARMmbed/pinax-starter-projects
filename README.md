@@ -30,5 +30,5 @@ SOCIAL_AUTH_AZUREAD_OAUTH2_KEY = "application_id"
 SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = "api_access_key"
 ```
 4. Set your domain correctly in [Django Sites](https://docs.djangoproject.com/en/2.0/ref/contrib/sites/)
-5. Set the Reply URL in the Azure settings to http://example.com/social-auth/complete/azuread-oauth2/ where example.com is your Django site domain.
+5. Set the Reply URL in the Azure settings to http://example.com/social-auth/complete/azuread-tenant-oauth2/ where example.com is your Django site domain.
 6. Enable SSO by setting `ACCOUNT_LOGIN_METHOD` to "armsso" either in the environment or settings.py

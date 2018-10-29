@@ -43,7 +43,7 @@
 
 <form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
   <div class="form-row">
-    <a href="{% url "social:begin" "azuread-oauth2" %}?next={% url "admin:index" %}" class="button submit">Login with ARM Single Sign-On</a>
+    <a href="{% url "social:begin" "azuread-tenant-oauth2" %}?next={% url "admin:index" %}" class="button submit">Login with ARM Single Sign-On</a>
   </div>
   <div class="form-row">
     {{ form.username.errors }}
