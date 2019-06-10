@@ -6,6 +6,8 @@ Make sure you are using a virtual environment of some sort (e.g. `virtualenv` or
 `pyenv`).
 
 ```
+pip install nodeenv
+nodeenv -p --prebuilt --node=10.16.0
 npm install
 pip install -r requirements.txt
 ./manage.py migrate
