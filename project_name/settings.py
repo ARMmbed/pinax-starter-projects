@@ -209,6 +209,7 @@ LOGIN_REDIRECT_URL = ACCOUNT_LOGIN_REDIRECT_URL
 AUTHENTICATION_BACKENDS = [
     "social_core.backends.azuread_tenant.AzureADTenantOAuth2",
     "account.auth_backends.UsernameAuthenticationBackend",
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
